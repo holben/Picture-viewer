@@ -35,13 +35,20 @@ namespace PictureViewer {
 			}
 		}
 	private: System::Windows::Forms::PictureBox^  pictureBox1;
+	private: System::Windows::Forms::Button^  btn_prev;
 	protected:
-	private: System::Windows::Forms::Button^  button1;
-	private: System::Windows::Forms::Button^  button2;
-	private: System::Windows::Forms::Button^  button3;
-	private: System::Windows::Forms::Button^  button4;
-	private: System::Windows::Forms::Button^  button5;
-	private: System::Windows::Forms::TextBox^  textBox1;
+
+	private: System::Windows::Forms::Button^  btn_next;
+	private: System::Windows::Forms::Button^  btn_remove;
+
+
+	private: System::Windows::Forms::Button^  btn_add;
+	private: System::Windows::Forms::Button^  btn_insert;
+
+
+	private: System::Windows::Forms::TextBox^  positionDisplay;
+	private: System::Windows::Forms::Label^  PictureName;
+
 
 
 
@@ -60,12 +67,13 @@ namespace PictureViewer {
 		void InitializeComponent(void)
 		{
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
-			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->button2 = (gcnew System::Windows::Forms::Button());
-			this->button3 = (gcnew System::Windows::Forms::Button());
-			this->button4 = (gcnew System::Windows::Forms::Button());
-			this->button5 = (gcnew System::Windows::Forms::Button());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->btn_prev = (gcnew System::Windows::Forms::Button());
+			this->btn_next = (gcnew System::Windows::Forms::Button());
+			this->btn_remove = (gcnew System::Windows::Forms::Button());
+			this->btn_add = (gcnew System::Windows::Forms::Button());
+			this->btn_insert = (gcnew System::Windows::Forms::Button());
+			this->positionDisplay = (gcnew System::Windows::Forms::TextBox());
+			this->PictureName = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -77,90 +85,100 @@ namespace PictureViewer {
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
 			// 
-			// button1
+			// btn_prev
 			// 
-			this->button1->BackColor = System::Drawing::SystemColors::ActiveCaption;
-			this->button1->Cursor = System::Windows::Forms::Cursors::PanWest;
-			this->button1->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
-			this->button1->Font = (gcnew System::Drawing::Font(L"Impact", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->btn_prev->BackColor = System::Drawing::SystemColors::ActiveCaption;
+			this->btn_prev->Cursor = System::Windows::Forms::Cursors::PanWest;
+			this->btn_prev->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
+			this->btn_prev->Font = (gcnew System::Drawing::Font(L"Impact", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button1->ForeColor = System::Drawing::SystemColors::HotTrack;
-			this->button1->Location = System::Drawing::Point(9, 12);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(75, 419);
-			this->button1->TabIndex = 1;
-			this->button1->Text = L"Previous";
-			this->button1->UseVisualStyleBackColor = false;
-			this->button1->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &DisplayWindow::button1_MouseClick);
+			this->btn_prev->ForeColor = System::Drawing::SystemColors::HotTrack;
+			this->btn_prev->Location = System::Drawing::Point(9, 12);
+			this->btn_prev->Name = L"btn_prev";
+			this->btn_prev->Size = System::Drawing::Size(75, 419);
+			this->btn_prev->TabIndex = 1;
+			this->btn_prev->Text = L"Previous";
+			this->btn_prev->UseVisualStyleBackColor = false;
+			this->btn_prev->Click += gcnew System::EventHandler(this, &DisplayWindow::btn_prev_Click);
 			// 
-			// button2
+			// btn_next
 			// 
-			this->button2->BackColor = System::Drawing::SystemColors::ActiveCaption;
-			this->button2->Cursor = System::Windows::Forms::Cursors::PanEast;
-			this->button2->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
-			this->button2->Font = (gcnew System::Drawing::Font(L"Impact", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->btn_next->BackColor = System::Drawing::SystemColors::ActiveCaption;
+			this->btn_next->Cursor = System::Windows::Forms::Cursors::PanEast;
+			this->btn_next->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
+			this->btn_next->Font = (gcnew System::Drawing::Font(L"Impact", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button2->ForeColor = System::Drawing::SystemColors::HotTrack;
-			this->button2->Location = System::Drawing::Point(1014, 12);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(75, 419);
-			this->button2->TabIndex = 2;
-			this->button2->Text = L"Next";
-			this->button2->UseVisualStyleBackColor = false;
-			this->button2->MouseClick += gcnew System::Windows::Forms::MouseEventHandler(this, &DisplayWindow::button2_MouseClick);
+			this->btn_next->ForeColor = System::Drawing::SystemColors::HotTrack;
+			this->btn_next->Location = System::Drawing::Point(1014, 12);
+			this->btn_next->Name = L"btn_next";
+			this->btn_next->Size = System::Drawing::Size(75, 419);
+			this->btn_next->TabIndex = 2;
+			this->btn_next->Text = L"Next";
+			this->btn_next->UseVisualStyleBackColor = false;
+			this->btn_next->Click += gcnew System::EventHandler(this, &DisplayWindow::btn_next_Click);
 			// 
-			// button3
+			// btn_remove
 			// 
-			this->button3->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
+			this->btn_remove->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(255)), static_cast<System::Int32>(static_cast<System::Byte>(128)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)));
-			this->button3->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
-			this->button3->Font = (gcnew System::Drawing::Font(L"Impact", 15.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->btn_remove->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
+			this->btn_remove->Font = (gcnew System::Drawing::Font(L"Impact", 15.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button3->ForeColor = System::Drawing::Color::Maroon;
-			this->button3->Location = System::Drawing::Point(696, 437);
-			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(190, 54);
-			this->button3->TabIndex = 3;
-			this->button3->Text = L"Remove";
-			this->button3->UseVisualStyleBackColor = false;
-			this->button3->Click += gcnew System::EventHandler(this, &DisplayWindow::button3_Click);
+			this->btn_remove->ForeColor = System::Drawing::Color::Maroon;
+			this->btn_remove->Location = System::Drawing::Point(696, 437);
+			this->btn_remove->Name = L"btn_remove";
+			this->btn_remove->Size = System::Drawing::Size(190, 54);
+			this->btn_remove->TabIndex = 3;
+			this->btn_remove->Text = L"Remove";
+			this->btn_remove->UseVisualStyleBackColor = false;
+			this->btn_remove->Click += gcnew System::EventHandler(this, &DisplayWindow::btn_remove_Click);
 			// 
-			// button4
+			// btn_add
 			// 
-			this->button4->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
+			this->btn_add->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(128)), static_cast<System::Int32>(static_cast<System::Byte>(255)),
 				static_cast<System::Int32>(static_cast<System::Byte>(128)));
-			this->button4->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
-			this->button4->Font = (gcnew System::Drawing::Font(L"Impact", 15.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->btn_add->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
+			this->btn_add->Font = (gcnew System::Drawing::Font(L"Impact", 15.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button4->ForeColor = System::Drawing::Color::DarkGreen;
-			this->button4->Location = System::Drawing::Point(892, 437);
-			this->button4->Name = L"button4";
-			this->button4->Size = System::Drawing::Size(197, 54);
-			this->button4->TabIndex = 4;
-			this->button4->Text = L"Add";
-			this->button4->UseVisualStyleBackColor = false;
-			this->button4->Click += gcnew System::EventHandler(this, &DisplayWindow::button4_Click);
+			this->btn_add->ForeColor = System::Drawing::Color::DarkGreen;
+			this->btn_add->Location = System::Drawing::Point(892, 437);
+			this->btn_add->Name = L"btn_add";
+			this->btn_add->Size = System::Drawing::Size(197, 54);
+			this->btn_add->TabIndex = 4;
+			this->btn_add->Text = L"Add";
+			this->btn_add->UseVisualStyleBackColor = false;
+			this->btn_add->Click += gcnew System::EventHandler(this, &DisplayWindow::btn_add_Click);
 			// 
-			// button5
+			// btn_insert
 			// 
-			this->button5->BackColor = System::Drawing::Color::SlateGray;
-			this->button5->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
-			this->button5->Font = (gcnew System::Drawing::Font(L"Impact", 15.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+			this->btn_insert->BackColor = System::Drawing::Color::SlateGray;
+			this->btn_insert->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
+			this->btn_insert->Font = (gcnew System::Drawing::Font(L"Impact", 15.75F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->button5->Location = System::Drawing::Point(495, 437);
-			this->button5->Name = L"button5";
-			this->button5->Size = System::Drawing::Size(195, 54);
-			this->button5->TabIndex = 5;
-			this->button5->Text = L"Insert";
-			this->button5->UseVisualStyleBackColor = false;
+			this->btn_insert->Location = System::Drawing::Point(495, 437);
+			this->btn_insert->Name = L"btn_insert";
+			this->btn_insert->Size = System::Drawing::Size(195, 54);
+			this->btn_insert->TabIndex = 5;
+			this->btn_insert->Text = L"Insert";
+			this->btn_insert->UseVisualStyleBackColor = false;
+			this->btn_insert->Click += gcnew System::EventHandler(this, &DisplayWindow::btn_insert_Click);
 			// 
-			// textBox1
+			// positionDisplay
 			// 
-			this->textBox1->Location = System::Drawing::Point(90, 12);
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(100, 20);
-			this->textBox1->TabIndex = 6;
-			this->textBox1->Text = L"Position: ";
+			this->positionDisplay->Location = System::Drawing::Point(90, 12);
+			this->positionDisplay->Name = L"positionDisplay";
+			this->positionDisplay->Size = System::Drawing::Size(100, 20);
+			this->positionDisplay->TabIndex = 6;
+			this->positionDisplay->Text = L"Position: ";
+			// 
+			// PictureName
+			// 
+			this->PictureName->AutoSize = true;
+			this->PictureName->Location = System::Drawing::Point(464, 15);
+			this->PictureName->Name = L"PictureName";
+			this->PictureName->Size = System::Drawing::Size(35, 13);
+			this->PictureName->TabIndex = 7;
+			this->PictureName->Text = L"label1";
 			// 
 			// DisplayWindow
 			// 
@@ -168,12 +186,13 @@ namespace PictureViewer {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::GhostWhite;
 			this->ClientSize = System::Drawing::Size(1102, 503);
-			this->Controls->Add(this->textBox1);
-			this->Controls->Add(this->button5);
-			this->Controls->Add(this->button4);
-			this->Controls->Add(this->button3);
-			this->Controls->Add(this->button2);
-			this->Controls->Add(this->button1);
+			this->Controls->Add(this->PictureName);
+			this->Controls->Add(this->positionDisplay);
+			this->Controls->Add(this->btn_insert);
+			this->Controls->Add(this->btn_add);
+			this->Controls->Add(this->btn_remove);
+			this->Controls->Add(this->btn_next);
+			this->Controls->Add(this->btn_prev);
 			this->Controls->Add(this->pictureBox1);
 			this->Name = L"DisplayWindow";
 			this->Text = L"DisplayWindow";
@@ -183,44 +202,45 @@ namespace PictureViewer {
 
 		}
 #pragma endregion
-public: int pos = 0 ;
-PictureList pictures;
-private: System::Void button2_MouseClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {//change positive position
+		PictureList pictures;
+		int pos;
+private: System::Void btn_next_Click(System::Object^  sender, System::EventArgs^  e) {
 	if (pos < pictures.size())
 	{
 		pos++;
-		textBox1->Text = "Position: " + pos;
+		positionDisplay->Text = "Position: " + pos;
+		pictures.walkToPosition(pos);
 	}
-	else
+	else 
 	{
-		textBox1->Text = "Can't go farther";
-	}
+		positionDisplay->Text = "Nothing there";
+	};
 }
-private: System::Void button1_MouseClick(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {//change negetive position
+private: System::Void btn_prev_Click(System::Object^  sender, System::EventArgs^  e) {
 	if (pos <= 0)
 	{
-		textBox1->Text = "Can't go back";
+		positionDisplay->Text = "Nothing there"; 
 	}
 	else
 	{
-		pos--;
-		textBox1->Text = "Position: " + pos;
-	}
-}
 
-private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {//removes picture node
-	if (pos != 0)
-	{
-		pictures.remove(pos);
-		textBox1->Text = "Removed: " + pos;
-	}
-	else
-	{
-		textBox1->Text = "Can't delete root";
+		pos--;
+		positionDisplay->Text = "Position: " + pos;
+		pictures.walkToPosition(pos);
 	}
 }
-private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {//adds picture node
-	pictures.add("gdssgd");
+private: System::Void btn_remove_Click(System::Object^  sender, System::EventArgs^  e) {
+	pictures.remove(pos);
+	
+}
+private: System::Void btn_add_Click(System::Object^  sender, System::EventArgs^  e) {
+	pictures.add("gg");
+	pos = pictures.size();
+	pictures.walkToPosition(pos);
+	positionDisplay->Text = "Position: " + pos;
+}
+private: System::Void btn_insert_Click(System::Object^  sender, System::EventArgs^  e) {
+	pictures.insert(pos, "gdsagds");
 }
 };
 }

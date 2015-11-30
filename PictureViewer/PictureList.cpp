@@ -4,65 +4,101 @@
 
 PictureList::PictureList()
 {
+	head = 0;
+	tail = 0;
 }
 PictureList::~PictureList()
 {
+	PictureNode *node = head;
+	while (node != 0) {
+		delete node;
+	}
 }
+
+PictureNode * PictureList::walkToPosition(int position)
+{
+	int tmp_pos = 0;
+	PictureNode *tmp_node = head;
+	while (tmp_pos < position) {
+		tmp_pos++;
+		if (tmp_node->next != 0) {
+			tmp_node = tmp_node->next;
+		}
+		if (tmp_node->next == 0) {
+			break;
+		}
+	}
+	return tmp_node;
+}
+
 void PictureList::add(std::string value)// add to the end of the list
 {
-	PictureNode *newPicture = new PictureNode;
-	newPicture = tail->next;
+
+	insert(size(), value);
 }
 void PictureList::insert(int pos, std::string value)// Inserts the value at the given index
 {
-	PictureNode *newPicture = new PictureNode;
-	PictureNode *position = head;
-	int start = 0;
-	while (start < pos)
+	PictureNode *newNode = new PictureNode;
+	newNode->picturePath = value;
+	newNode->next = 0;
+
+	PictureNode *pic_at_position = walkToPosition(pos);
+
+	if (pic_at_position == 0)
 	{
-		position = position->next;
+		head = newNode;
+		head->next = 0;
+		head->prev = 0;
+	}
+	else
+	{
+		newNode->next = pic_at_position->next;
+		newNode->prev = pic_at_position;
+
+		if (newNode->next != 0)
+		{
+			newNode->next->prev = newNode;
+		}
+		pic_at_position->next = newNode;
+
 	}
 
-
-	newPicture->next = position->next;
-
-	position->next = newPicture;
-
 }
+
+
+
 void PictureList::remove(int pos)// Removes element at given position
 {
-	PictureNode *deletedPicture;
-	PictureNode *position = head;
-	int start = 0;
-	
-	while (start < pos)
-	{
-		position = position->next;
-		start++;
-	}
-	deletedPicture = position;
-	position->prev = position->next;
-	delete deletedPicture;
+	PictureNode *tmp_node = walkToPosition(pos);
+	PictureNode *to_delete = tmp_node->next;
+	tmp_node->next = to_delete->next;
+	tmp_node->next->prev = tmp_node;
+	delete to_delete;
 
 	
 	
 }
-void PictureList::get(int pos) //returns element at that position
+std::string PictureList::get(int pos) //returns element at that position
 {
-
+	PictureNode *pic = walkToPosition(pos);
+	return pic->picturePath;
 }
 void PictureList::set(int pos, double value)// sets position in list
 {
-
+	throw gcnew System::NotImplementedException();
 }
 int PictureList::size() //the number of elements stored in the list
 {
 	
-	int size = 0;
-	while (tail != 0)
-	{
-		tail = tail->next;
-		size++;
+	int number_nodes = 0;
+	PictureNode *start = head;
+	if (head != 0) {
+		number_nodes++;
+		while (start->next != 0) {
+			number_nodes++;
+			start = start->next;
+		}
 	}
-	return size;
+
+	return number_nodes;
 }
