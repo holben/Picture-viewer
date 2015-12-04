@@ -1,5 +1,7 @@
 #pragma once
 #include "PictureList.h"
+#include <msclr\marshal_cppstd.h>
+#include <iostream>
 namespace PictureViewer {
 
 	using namespace System;
@@ -48,6 +50,12 @@ namespace PictureViewer {
 
 	private: System::Windows::Forms::TextBox^  positionDisplay;
 	private: System::Windows::Forms::Label^  PictureName;
+	private: System::Windows::Forms::TextBox^  Address;
+
+
+
+
+
 
 
 
@@ -74,6 +82,7 @@ namespace PictureViewer {
 			this->btn_insert = (gcnew System::Windows::Forms::Button());
 			this->positionDisplay = (gcnew System::Windows::Forms::TextBox());
 			this->PictureName = (gcnew System::Windows::Forms::Label());
+			this->Address = (gcnew System::Windows::Forms::TextBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -169,16 +178,22 @@ namespace PictureViewer {
 			this->positionDisplay->Name = L"positionDisplay";
 			this->positionDisplay->Size = System::Drawing::Size(100, 20);
 			this->positionDisplay->TabIndex = 6;
-			this->positionDisplay->Text = L"Position: ";
+			this->positionDisplay->Text = L"Position: 0";
 			// 
 			// PictureName
 			// 
 			this->PictureName->AutoSize = true;
-			this->PictureName->Location = System::Drawing::Point(464, 15);
+			this->PictureName->Location = System::Drawing::Point(492, 15);
 			this->PictureName->Name = L"PictureName";
-			this->PictureName->Size = System::Drawing::Size(35, 13);
+			this->PictureName->Size = System::Drawing::Size(0, 13);
 			this->PictureName->TabIndex = 7;
-			this->PictureName->Text = L"label1";
+			// 
+			// Address
+			// 
+			this->Address->Location = System::Drawing::Point(908, 411);
+			this->Address->Name = L"Address";
+			this->Address->Size = System::Drawing::Size(100, 20);
+			this->Address->TabIndex = 8;
 			// 
 			// DisplayWindow
 			// 
@@ -186,6 +201,7 @@ namespace PictureViewer {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::GhostWhite;
 			this->ClientSize = System::Drawing::Size(1102, 503);
+			this->Controls->Add(this->Address);
 			this->Controls->Add(this->PictureName);
 			this->Controls->Add(this->positionDisplay);
 			this->Controls->Add(this->btn_insert);
@@ -204,22 +220,35 @@ namespace PictureViewer {
 #pragma endregion
 		PictureList pictures;
 		int pos;
+		System::String^ s2s(std::string  str) {
+			return gcnew System::String(str.c_str());
+		}
+
+
+		std::string s2s(System::String^ str) {
+			return msclr::interop::marshal_as<std::string>(str);
+		}
+
 private: System::Void btn_next_Click(System::Object^  sender, System::EventArgs^  e) {
-	if (pos < pictures.size())
+	if (pos >= pictures.size())
 	{
+
+		
+	}
+	else
+	{
+
 		pos++;
 		positionDisplay->Text = "Position: " + pos;
 		pictures.walkToPosition(pos);
+		PictureName->Text = s2s(pictures.get(pos));
 	}
-	else 
-	{
-		positionDisplay->Text = "Nothing there";
-	};
 }
 private: System::Void btn_prev_Click(System::Object^  sender, System::EventArgs^  e) {
-	if (pos <= 0)
+	if (pos < 1)
 	{
-		positionDisplay->Text = "Nothing there"; 
+		
+		
 	}
 	else
 	{
@@ -227,6 +256,7 @@ private: System::Void btn_prev_Click(System::Object^  sender, System::EventArgs^
 		pos--;
 		positionDisplay->Text = "Position: " + pos;
 		pictures.walkToPosition(pos);
+		PictureName->Text = s2s(pictures.get(pos));
 	}
 }
 private: System::Void btn_remove_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -234,13 +264,18 @@ private: System::Void btn_remove_Click(System::Object^  sender, System::EventArg
 	
 }
 private: System::Void btn_add_Click(System::Object^  sender, System::EventArgs^  e) {
-	pictures.add("gg");
+
+	System::String^ Location = Address->Text;
+	pictures.add(s2s(Location));
 	pos = pictures.size();
 	pictures.walkToPosition(pos);
 	positionDisplay->Text = "Position: " + pos;
+	PictureName->Text = s2s(pictures.get(pos));
+	
 }
 private: System::Void btn_insert_Click(System::Object^  sender, System::EventArgs^  e) {
-	pictures.insert(pos, "gdsagds");
+	System::String^ Location = Address->Text;
+	pictures.insert(pos, s2s(Location));
 }
 };
 }
