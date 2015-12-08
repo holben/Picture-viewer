@@ -69,11 +69,24 @@ void PictureList::insert(int pos, std::string value)// Inserts the value at the 
 
 void PictureList::remove(int pos)// Removes element at given position
 {
-	PictureNode *tmp_node = walkToPosition(pos);
-	PictureNode *to_delete = tmp_node->next;
-	tmp_node->next = to_delete->next;
-	tmp_node->next->prev = tmp_node;
-	delete to_delete;
+	
+		PictureNode *tmp_node = walkToPosition(pos);
+		if (tmp_node->next)
+		{
+			PictureNode *to_delete = tmp_node->next;
+			tmp_node->next = to_delete->next;
+			tmp_node->next->prev = tmp_node;
+			delete to_delete;
+		}
+		else if (!tmp_node->next)
+		{
+			PictureNode *to_delete = tmp_node->prev;
+			delete to_delete;
+		}
+		else {
+
+		}
+	
 
 	
 	

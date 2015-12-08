@@ -36,7 +36,9 @@ namespace PictureViewer {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::PictureBox^  pictureBox1;
+	private: System::Windows::Forms::PictureBox^  Pic_Main;
+	protected:
+
 	private: System::Windows::Forms::Button^  btn_prev;
 	protected:
 
@@ -74,7 +76,7 @@ namespace PictureViewer {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+			this->Pic_Main = (gcnew System::Windows::Forms::PictureBox());
 			this->btn_prev = (gcnew System::Windows::Forms::Button());
 			this->btn_next = (gcnew System::Windows::Forms::Button());
 			this->btn_remove = (gcnew System::Windows::Forms::Button());
@@ -83,16 +85,16 @@ namespace PictureViewer {
 			this->positionDisplay = (gcnew System::Windows::Forms::TextBox());
 			this->PictureName = (gcnew System::Windows::Forms::Label());
 			this->Address = (gcnew System::Windows::Forms::TextBox());
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Pic_Main))->BeginInit();
 			this->SuspendLayout();
 			// 
-			// pictureBox1
+			// Pic_Main
 			// 
-			this->pictureBox1->Location = System::Drawing::Point(90, 12);
-			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(918, 419);
-			this->pictureBox1->TabIndex = 0;
-			this->pictureBox1->TabStop = false;
+			this->Pic_Main->Location = System::Drawing::Point(90, 12);
+			this->Pic_Main->Name = L"Pic_Main";
+			this->Pic_Main->Size = System::Drawing::Size(918, 419);
+			this->Pic_Main->TabIndex = 0;
+			this->Pic_Main->TabStop = false;
 			// 
 			// btn_prev
 			// 
@@ -178,7 +180,7 @@ namespace PictureViewer {
 			this->positionDisplay->Name = L"positionDisplay";
 			this->positionDisplay->Size = System::Drawing::Size(100, 20);
 			this->positionDisplay->TabIndex = 6;
-			this->positionDisplay->Text = L"Position: 0";
+			this->positionDisplay->Text = L"Position: ";
 			// 
 			// PictureName
 			// 
@@ -209,10 +211,10 @@ namespace PictureViewer {
 			this->Controls->Add(this->btn_remove);
 			this->Controls->Add(this->btn_next);
 			this->Controls->Add(this->btn_prev);
-			this->Controls->Add(this->pictureBox1);
+			this->Controls->Add(this->Pic_Main);
 			this->Name = L"DisplayWindow";
 			this->Text = L"DisplayWindow";
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Pic_Main))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -230,7 +232,7 @@ namespace PictureViewer {
 		}
 
 private: System::Void btn_next_Click(System::Object^  sender, System::EventArgs^  e) {
-	if (pos >= pictures.size())
+	if (pos >= pictures.size()-1)
 	{
 
 		
@@ -261,21 +263,34 @@ private: System::Void btn_prev_Click(System::Object^  sender, System::EventArgs^
 }
 private: System::Void btn_remove_Click(System::Object^  sender, System::EventArgs^  e) {
 	pictures.remove(pos);
-	
 }
 private: System::Void btn_add_Click(System::Object^  sender, System::EventArgs^  e) {
-
 	System::String^ Location = Address->Text;
 	pictures.add(s2s(Location));
-	pos = pictures.size();
+	pos = pictures.size()-1;
 	pictures.walkToPosition(pos);
 	positionDisplay->Text = "Position: " + pos;
 	PictureName->Text = s2s(pictures.get(pos));
+	setPicturePosition(pos);
 	
 }
 private: System::Void btn_insert_Click(System::Object^  sender, System::EventArgs^  e) {
 	System::String^ Location = Address->Text;
 	pictures.insert(pos, s2s(Location));
+	setPicturePosition(pos);
 }
+
+System::Void PictureViewer::DisplayWindow::setPicturePosition(int pos)
+	{
+		if (pos > pictures.size() || pos < 0) 
+		{
+				 // Don't go anywhere. You are at the end of the list
+		}
+		else 
+		{
+				 System::String^ main_picture = s2s(pictures.get(pos));
+				 Pic_Main->ImageLocation = main_picture;
+		}
+	}
 };
 }
