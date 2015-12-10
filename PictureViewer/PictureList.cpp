@@ -75,17 +75,22 @@ void PictureList::remove(int pos)// Removes element at given position
 		{
 			PictureNode *to_delete = tmp_node->next;
 			tmp_node->next = to_delete->next;
-			tmp_node->next->prev = tmp_node;
+			tmp_node->next = tmp_node;
+			tmp_node->prev = tmp_node;
 			delete to_delete;
 		}
 		else if (!tmp_node->next)
 		{
 			PictureNode *to_delete = tmp_node->prev;
+			tmp_node->prev = to_delete->prev;
+			tmp_node->prev->next = tmp_node;
 			delete to_delete;
+			
 		}
 		else {
 
 		}
+		
 	
 
 	

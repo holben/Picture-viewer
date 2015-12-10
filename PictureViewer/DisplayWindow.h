@@ -244,6 +244,7 @@ private: System::Void btn_next_Click(System::Object^  sender, System::EventArgs^
 		positionDisplay->Text = "Position: " + pos;
 		pictures.walkToPosition(pos);
 		PictureName->Text = s2s(pictures.get(pos));
+		setPicturePosition(pos);
 	}
 }
 private: System::Void btn_prev_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -259,10 +260,16 @@ private: System::Void btn_prev_Click(System::Object^  sender, System::EventArgs^
 		positionDisplay->Text = "Position: " + pos;
 		pictures.walkToPosition(pos);
 		PictureName->Text = s2s(pictures.get(pos));
+		setPicturePosition(pos);
 	}
 }
 private: System::Void btn_remove_Click(System::Object^  sender, System::EventArgs^  e) {
-	pictures.remove(pos);
+	pictures.remove(pos-1);
+	
+	
+	PictureName->Text = s2s(pictures.get(pos));
+	setPicturePosition(pos);
+	positionDisplay->Text = "Position: " + (pos);
 }
 private: System::Void btn_add_Click(System::Object^  sender, System::EventArgs^  e) {
 	System::String^ Location = Address->Text;
@@ -276,7 +283,8 @@ private: System::Void btn_add_Click(System::Object^  sender, System::EventArgs^ 
 }
 private: System::Void btn_insert_Click(System::Object^  sender, System::EventArgs^  e) {
 	System::String^ Location = Address->Text;
-	pictures.insert(pos, s2s(Location));
+	pictures.insert(pos-1, s2s(Location));
+	PictureName->Text = s2s(pictures.get(pos));
 	setPicturePosition(pos);
 }
 
