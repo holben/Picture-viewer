@@ -18,6 +18,9 @@ PictureList::~PictureList()
 PictureNode * PictureList::walkToPosition(int position)
 {
 	int tmp_pos = 0;
+	if (head == NULL || head == 0) {
+		return 0;
+	}
 	PictureNode *tmp_node = head;
 	while (tmp_pos < position) {
 		tmp_pos++;
@@ -75,8 +78,7 @@ void PictureList::remove(int pos)// Removes element at given position
 		{
 			PictureNode *to_delete = tmp_node->next;
 			tmp_node->next = to_delete->next;
-			tmp_node->next = tmp_node;
-			tmp_node->prev = tmp_node;
+			tmp_node->next->prev = tmp_node;
 			delete to_delete;
 		}
 		else if (!tmp_node->next)
@@ -109,8 +111,8 @@ int PictureList::size() //the number of elements stored in the list
 {
 	
 	int number_nodes = 0;
-	PictureNode *start = head;
-	if (head != 0) {
+	if (head != NULL && head != 0) {
+		PictureNode *start = head;
 		number_nodes++;
 		while (start->next != 0) {
 			number_nodes++;

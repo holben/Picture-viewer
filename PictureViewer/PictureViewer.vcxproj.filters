@@ -35,9 +35,4 @@
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="Image.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
 </Project>

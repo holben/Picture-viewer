@@ -36,7 +36,9 @@ namespace PictureViewer {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::PictureBox^  Pic_Main;
+	private: System::Windows::Forms::PictureBox^  pic_main;
+	protected:
+
 	protected:
 
 	private: System::Windows::Forms::Button^  btn_prev;
@@ -76,7 +78,7 @@ namespace PictureViewer {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->Pic_Main = (gcnew System::Windows::Forms::PictureBox());
+			this->pic_main = (gcnew System::Windows::Forms::PictureBox());
 			this->btn_prev = (gcnew System::Windows::Forms::Button());
 			this->btn_next = (gcnew System::Windows::Forms::Button());
 			this->btn_remove = (gcnew System::Windows::Forms::Button());
@@ -85,16 +87,20 @@ namespace PictureViewer {
 			this->positionDisplay = (gcnew System::Windows::Forms::TextBox());
 			this->PictureName = (gcnew System::Windows::Forms::Label());
 			this->Address = (gcnew System::Windows::Forms::TextBox());
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Pic_Main))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pic_main))->BeginInit();
 			this->SuspendLayout();
 			// 
-			// Pic_Main
+			// pic_main
 			// 
-			this->Pic_Main->Location = System::Drawing::Point(90, 12);
-			this->Pic_Main->Name = L"Pic_Main";
-			this->Pic_Main->Size = System::Drawing::Size(918, 419);
-			this->Pic_Main->TabIndex = 0;
-			this->Pic_Main->TabStop = false;
+			this->pic_main->BackColor = System::Drawing::Color::White;
+			this->pic_main->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
+			this->pic_main->ImageLocation = L"";
+			this->pic_main->Location = System::Drawing::Point(90, 12);
+			this->pic_main->Name = L"pic_main";
+			this->pic_main->Size = System::Drawing::Size(918, 419);
+			this->pic_main->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
+			this->pic_main->TabIndex = 0;
+			this->pic_main->TabStop = false;
 			// 
 			// btn_prev
 			// 
@@ -211,10 +217,13 @@ namespace PictureViewer {
 			this->Controls->Add(this->btn_remove);
 			this->Controls->Add(this->btn_next);
 			this->Controls->Add(this->btn_prev);
-			this->Controls->Add(this->Pic_Main);
+			this->Controls->Add(this->pic_main);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::Fixed3D;
+			this->MaximizeBox = false;
+			this->MinimizeBox = false;
 			this->Name = L"DisplayWindow";
-			this->Text = L"DisplayWindow";
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Pic_Main))->EndInit();
+			this->Text = L"Picture Viewer";
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pic_main))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -290,15 +299,17 @@ private: System::Void btn_insert_Click(System::Object^  sender, System::EventArg
 
 System::Void PictureViewer::DisplayWindow::setPicturePosition(int pos)
 	{
-		if (pos > pictures.size() || pos < 0) 
-		{
+		//if (pos > pictures.size() || pos < 0) 
+		//{
 				 // Don't go anywhere. You are at the end of the list
-		}
-		else 
-		{
-				 System::String^ main_picture = s2s(pictures.get(pos));
-				 Pic_Main->ImageLocation = main_picture;
-		}
+		//}
+		//else 
+		//{
+			System::String^ main_picture = s2s(pictures.get(pos));
+			pic_main->ImageLocation = main_picture;
+			
+				
+		//}
 	}
 };
 }
